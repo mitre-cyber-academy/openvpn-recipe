@@ -1,0 +1,6 @@
+{
+  "apt" : {
+    "compile_time_update" : true
+},
+	"run_list": [ "recipe[apt]", "recipe[simple_iptables]", "recipe[openvpn]", "recipe[unattended-upgrades]" ]
+}
