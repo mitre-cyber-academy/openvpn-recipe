@@ -1,8 +1,6 @@
 # OpenVPN Setup Recipe
 
-## Initial Setup
-
-You will need to initialize the submodule included in this project in order for it to work correctly! Otherwise your firewall rules will not be configured.
+This chef recipe creates a server allowing users to VPN into the network it is connected to and waits on the scoreboard to pass it users to add to the box.
 
 ## Commands
 
