@@ -1,0 +1,25 @@
+#!/bin/bash
+# monitor openvpn keys directory for changes and create the keys when the file is created.
+
+die () {
+    echo >&2 "$@"
+    exit 1
+}
+
+[ `whoami` == 'root' ] || die "You must be root to do this."
+
+if [ $(pidof -x openvpn-watchkeys| wc -w) -gt 2 ]; then 
+    die "Cannot one more than 1 instance at a time."
+fi
+
+TARGET_DIR="/opt/openvpn_keys"
+
+inotifywait -m -r --format '%f' --timefmt '%F %T' -e move $TARGET_DIR | while read line
+do
+if [[ "$line" != ".unison"* && "$line" != *".zip" && ! -f "$TARGET_DIR/$line.zip" ]]
+then
+  openvpn-adduser $line
+fi;
+done
+ 
+exit 0
