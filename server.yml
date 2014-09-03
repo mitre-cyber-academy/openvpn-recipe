@@ -1,0 +1,6 @@
+path:   "."
+username:   "ubuntu"
+flavor_id:  "m3.medium"
+image_id:   "ami-aa7ab6c2"
+tags:
+    Name:  "OpenVPN Server Recipe"
