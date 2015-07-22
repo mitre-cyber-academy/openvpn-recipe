@@ -13,7 +13,11 @@ Both of these need to be run with administrative privileges.
 
 Also you need port 1194 open for TCP traffic on the firewall.
 
-## TO DO
+## What is all this about watch keys?
+
+This cookbook does more than just setup VPN. It also sets up the directory /opt/openvpn_keys and monitors for whenever a new text file is created in this directory. The reason for this is that [there is a rake task in the scoreboard recipe](https://github.com/mitre-cyber-academy/ctf-scoreboard/blob/e0a5e06329183caf6a008eaa07a489c67a9411d6/lib/tasks/scoreboard.rake#L126) that creates a new text file in a directory and then syncs that directory between the two machines. We use inotifywait and monitor for move requests since inotifywait ends up interpreting the rsync from the scoreboard as such.
+
+## To Do
 
 This recipe is setup to be very specific to the MITRE CTF at this point. In order to make it easier to move between infrastructures, many of the files need to be turned into templates. Some things that need to be made into attributes include
 
