@@ -1,5 +1,7 @@
-
 package "openvpn" do
+  action :install
+end
+package "easy-rsa" do
   action :install
 end
 package "zip" do
@@ -19,9 +21,7 @@ bash "setup_openvpn" do
 	user "root"
 	cwd "/etc/openvpn"
 	code <<-EOH
-		touch crl.pem
-		mkdir easy-rsa
-		cp -R /usr/share/doc/openvpn/examples/easy-rsa/2.0/* easy-rsa/ 
+		make-cadir easy-rsa
 	EOH
 end
 # The next 2 lines should be removable at a later date as it fixes a bug in whichopensslcnf
