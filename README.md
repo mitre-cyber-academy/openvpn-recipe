@@ -33,3 +33,7 @@ This recipe is setup to be very specific to the MITRE CTF at this point. In orde
  * Root CA Expiration time.
  * IP address range to push to routes.
  * External IP and port for template-server-config.
+
+## Using this Recipe
+
+The easiest way to use this recipe is by cloning this repository to the machine on which you wish to install openvpn on and then running `sudo chef-client -z -j node.json`.
