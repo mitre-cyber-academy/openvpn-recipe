@@ -39,7 +39,7 @@ key client1.key
 cert client1.crt
 
 #make sure client certicates can't be used in server
-tls-remote vpnserver
+verify-x509-name vpnserver name
 
 # Use the same setting as you are using on
 # the server.
