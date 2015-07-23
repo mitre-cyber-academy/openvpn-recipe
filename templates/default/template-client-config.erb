@@ -18,7 +18,7 @@ client
 # The hostname/IP and port of the server.
 # You can have multiple remote entries
 # to load balance between the servers.
-remote vpn.mitrestemctf.org 1194
+remote <%= @public_ip_or_host %> <%= @public_port %>
 ;remote my-server-2 1194
 
 # Are we connecting to a TCP or

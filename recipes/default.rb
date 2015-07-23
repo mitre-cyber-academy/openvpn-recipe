@@ -71,9 +71,13 @@ directory "/opt/openvpn_templates" do
   mode 00755
   action :create
 end
-cookbook_file "/opt/openvpn_templates/template-client-config" do
-  source "template-client-config"
+template "/opt/openvpn_templates/template-client-config" do
+  source "template-client-config.erb"
   mode 0644
+  variables(
+    public_ip_or_host: node['openvpn']['public_ip_or_host'],
+    public_port: node['openvpn']['public_port'] 
+  )
 end
 cookbook_file "/usr/bin/openvpn-adduser" do
   source "openvpn-adduser"
