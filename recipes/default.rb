@@ -13,9 +13,12 @@ end
 package "unison" do
   action :install
 end
-cookbook_file "/etc/openvpn/openvpn.conf" do
-  source "template-server-config"
+template "/etc/openvpn/openvpn.conf" do
+  source "template-server-config.erb"
   mode 0644
+  variables(
+    private_subnet: node['openvpn']['private_subnet']
+  )
 end
 bash "setup_openvpn" do
 	user "root"
@@ -94,12 +97,12 @@ service "openvpn-watchkeys" do
 end
 simple_iptables_rule "system" do
   direction "FORWARD"
-  rule [ "-i tun0 -o eth0 -s 172.20.0.0/16 -d 10.0.0.0/24 -m conntrack --ctstate NEW" ]
+  rule [ "-i tun0 -o eth0 -s 172.20.0.0/16 -d #{node['openvpn']['private_subnet']}/24 -m conntrack --ctstate NEW" ]
   jump "ACCEPT"
 end
 simple_iptables_rule "system" do
   table "nat"
   direction "POSTROUTING"
-  rule [ "-s 172.20.0.0/16 -d 10.0.0.0/24 -o eth0" ]
+  rule [ "-s 172.20.0.0/16 -d #{node['openvpn']['private_subnet']}/24 -o eth0" ]
   jump "MASQUERADE"
 end

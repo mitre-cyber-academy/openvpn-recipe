@@ -1,0 +1,1 @@
+default['openvpn']['private_subnet'] = "10.0.1.0" # /24 internal CIDR block which users are allowed to route to.

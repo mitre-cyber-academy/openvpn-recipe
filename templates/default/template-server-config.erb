@@ -139,7 +139,7 @@ ifconfig-pool-persist ipp.txt
 # to know to route the OpenVPN client
 # address pool (10.8.0.0/255.255.255.0)
 # back to the OpenVPN server.
-push "route 10.0.0.0 255.255.255.0"
+push "route <%= @private_subnet %> 255.255.255.0"
 
 # To assign specific IP addresses to specific
 # clients or if a connecting client has a private
