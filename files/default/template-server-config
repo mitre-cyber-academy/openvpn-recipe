@@ -99,7 +99,7 @@ dh easy-rsa/keys/dh1024.pem
 # Each client will be able to reach the server
 # on 10.8.0.1. Comment this line out if you are
 # ethernet bridging. See the man page for more info.
-server 192.168.0.0 255.255.0.0
+server 172.20.0.0 255.255.0.0
 
 # Maintain a record of client <-> virtual IP address
 # associations in this file.  If OpenVPN goes down or
