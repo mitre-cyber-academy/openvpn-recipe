@@ -1,1 +1,34 @@
-{"name":"openvpn","description":"Installs/Configures openvpn-recipe","long_description":"# OpenVPN Setup Recipe\n\n## Initial Setup\n\nYou will need to initialize the submodule included in this project in order for it to work correctly! Otherwise your firewall rules will not be configured.\n\n## Commands\n\nThis script adds the following commands to your path:\n\n* openvpn-adduser\n* openvpn-destroyuser\n\nBoth of these need to be run with administrative privileges.\n\nAlso you need port 1194 open for TCP traffic on the firewall.\n\nTo Do\n\n* Update to use Berkshelf.","maintainer":"Robert Clark","maintainer_email":"rbclark@mitre.org","license":"Apache 2.0","platforms":{},"dependencies":{"apt":">= 0.0.0","simple_iptables":">= 0.0.0","unattended-upgrades":">= 0.0.0"},"recommendations":{},"suggestions":{},"conflicting":{},"providing":{},"replacing":{},"attributes":{},"groupings":{},"recipes":{},"version":"0.1.0"}
+{
+  "name": "openvpn",
+  "description": "Installs/Configures openvpn-recipe",
+  "long_description": "# OpenVPN Setup Recipe\n\nThis chef recipe creates a server allowing users to VPN into the network it is connected to and waits on the scoreboard to pass it users to add to the box.\n\n## Commands\n\nThis script adds the following commands to your path:\n\n* openvpn-adduser\n* openvpn-destroyuser\n\nBoth of these need to be run with administrative privileges.\n\nAlso you need port 1194 open for TCP traffic on the firewall.\n\n## What is all this about watch keys?\n\nThis cookbook does more than just setup VPN. It also sets up the directory /opt/openvpn_keys and monitors for whenever a new text file is created in this directory. The reason for this is that [there is a rake task in the scoreboard recipe](https://github.com/mitre-cyber-academy/ctf-scoreboard/blob/e0a5e06329183caf6a008eaa07a489c67a9411d6/lib/tasks/scoreboard.rake#L126) that creates a new text file in a directory and then syncs that directory between the two machines. We use inotifywait and monitor for move requests since inotifywait ends up interpreting the rsync from the scoreboard as such.\n\n## Commands to use this recipe\n\nIf you want to run this recipe on your server without using a full chef server install, you can use the following commands.\n\n* `curl -L https://www.chef.io/chef/install.sh | sudo bash` # Install chef\n* `cd openvpn-recipe` # Enter directory containing this code\n* `sudo chef-client -z -j node.json` # Run the chef client in standalone mode using the node.json provided.\n\n## To Do\n\nThis recipe is setup to be very specific to the MITRE CTF at this point. In order to make it easier to move between infrastructures, many of the files need to be turned into templates. Some things that need to be made into attributes include\n\n * Diffie Hellman key size.\n * Root CA Expiration time.\n * IP address range to push to routes.\n * External IP and port for template-server-config.",
+  "maintainer": "Robert Clark",
+  "maintainer_email": "rbclark@mitre.org",
+  "license": "Apache 2.0",
+  "platforms": {
+  },
+  "dependencies": {
+    "apt": ">= 0.0.0",
+    "simple_iptables": ">= 0.0.0",
+    "unattended-upgrades": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.1.0",
+  "source_url": "",
+  "issues_url": ""
+}

@@ -1,5 +1,7 @@
-
 package "openvpn" do
+  action :install
+end
+package "easy-rsa" do
   action :install
 end
 package "zip" do
@@ -11,17 +13,18 @@ end
 package "unison" do
   action :install
 end
-cookbook_file "/etc/openvpn/openvpn.conf" do
-  source "template-server-config"
+template "/etc/openvpn/openvpn.conf" do
+  source "template-server-config.erb"
   mode 0644
+  variables(
+    private_subnet: node['openvpn']['private_subnet']
+  )
 end
 bash "setup_openvpn" do
 	user "root"
 	cwd "/etc/openvpn"
 	code <<-EOH
-		touch crl.pem
-		mkdir easy-rsa
-		cp -R /usr/share/doc/openvpn/examples/easy-rsa/2.0/* easy-rsa/ 
+		make-cadir easy-rsa
 	EOH
 end
 # The next 2 lines should be removable at a later date as it fixes a bug in whichopensslcnf
@@ -68,9 +71,13 @@ directory "/opt/openvpn_templates" do
   mode 00755
   action :create
 end
-cookbook_file "/opt/openvpn_templates/template-client-config" do
-  source "template-client-config"
+template "/opt/openvpn_templates/template-client-config" do
+  source "template-client-config.erb"
   mode 0644
+  variables(
+    public_ip_or_host: node['openvpn']['public_ip_or_host'],
+    public_port: node['openvpn']['public_port'] 
+  )
 end
 cookbook_file "/usr/bin/openvpn-adduser" do
   source "openvpn-adduser"
@@ -94,12 +101,12 @@ service "openvpn-watchkeys" do
 end
 simple_iptables_rule "system" do
   direction "FORWARD"
-  rule [ "-i tun0 -o eth0 -s 192.168.0.0/16 -d 10.0.0.0/24 -m conntrack --ctstate NEW" ]
+  rule [ "-i tun0 -o eth0 -s 172.20.0.0/16 -d #{node['openvpn']['private_subnet']}/24 -m conntrack --ctstate NEW" ]
   jump "ACCEPT"
 end
 simple_iptables_rule "system" do
   table "nat"
   direction "POSTROUTING"
-  rule [ "-s 192.168.0.0/16 -d 10.0.0.0/24 -o eth0" ]
+  rule [ "-s 172.20.0.0/16 -d #{node['openvpn']['private_subnet']}/24 -o eth0" ]
   jump "MASQUERADE"
 end
