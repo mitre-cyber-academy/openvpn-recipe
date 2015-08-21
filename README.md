@@ -17,7 +17,7 @@ Also you need port 1194 open for TCP traffic on the firewall.
 
 This cookbook does more than just setup VPN. It also sets up the directory /opt/openvpn_keys and monitors for whenever a new text file is created in this directory. The reason for this is that [there is a rake task in the scoreboard recipe](https://github.com/mitre-cyber-academy/ctf-scoreboard/blob/e0a5e06329183caf6a008eaa07a489c67a9411d6/lib/tasks/scoreboard.rake#L126) that creates a new text file in a directory and then syncs that directory between the two machines. We use inotifywait and monitor for move requests since inotifywait ends up interpreting the rsync from the scoreboard as such.
 
-## Commands to use this recipe
+## Commands to use this recipe for deployment
 
 If you want to run this recipe on your server without using a full chef server install, you can use the following commands.
 
