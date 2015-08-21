@@ -23,6 +23,7 @@ If you want to run this recipe on your server without using a full chef server i
 
 * `curl -L https://www.chef.io/chef/install.sh | sudo bash` # Install chef
 * `cd openvpn-recipe` # Enter directory containing this code
+* `berks vendor cookbooks` # fetch all cookbook dependencies and place in the cookbooks directory.
 * `sudo chef-client -z -j node.json` # Run the chef client in standalone mode using the node.json provided.
 
 ## To Do
