@@ -76,7 +76,7 @@ template "/opt/openvpn_templates/template-client-config" do
   mode 0644
   variables(
     public_ip_or_host: node['openvpn']['public_ip_or_host'],
-    public_port: node['openvpn']['public_port'] 
+    public_port: node['openvpn']['public_port']
   )
 end
 cookbook_file "/usr/bin/openvpn-adduser" do
@@ -101,10 +101,10 @@ service "openvpn-watchkeys" do
 end
 simple_iptables_rule "system" do
   direction "FORWARD"
-  rule [ 
-         "-i tun0 -o eth0 -s 172.20.0.0/16 -d 
-         #{node['openvpn']['private_subnet']}/#{node['openvpn']['private_subnet_cidr']} 
-         -m conntrack --ctstate NEW" 
+  rule [
+         "-i tun0 -o eth0 -s 172.20.0.0/16 -d "\
+         "#{node['openvpn']['private_subnet']}/#{node['openvpn']['private_subnet_cidr']} "\
+         "-m conntrack --ctstate NEW"
        ]
   jump "ACCEPT"
 end
