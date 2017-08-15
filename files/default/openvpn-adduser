@@ -34,8 +34,9 @@ cd /tmp/$client_name
 cp $openvpn/easy-rsa/keys/ca.crt "ca-$client_name.crt"
 cp $openvpn/easy-rsa/keys/$client_name.key $openvpn/easy-rsa/keys/$client_name.crt .
 cp $config_template $client_name.ovpn
+cp /etc/opencpn/tc.key tc.key
 sed -i -e "s/client1/$client_name/" -e "s/^ca ca.crt/ca ca-$client_name.crt/" $client_name.ovpn
-zip $client_name.zip $client_name.ovpn $client_name.crt $client_name.key ca-$client_name.crt
+zip $client_name.zip $client_name.ovpn $client_name.crt $client_name.key ca-$client_name.crt tc.key
 chmod -R a+rX .
 mv $client_name.zip $key_store/$client_name.zip
 rm -rf /tmp/$client_name

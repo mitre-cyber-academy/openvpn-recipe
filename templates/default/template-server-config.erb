@@ -34,8 +34,8 @@ port 1194
 
 
 # TCP or UDP server?
-proto tcp
-;proto udp
+;proto tcp
+proto udp
 
 # "dev tun" will create a routed IP tunnel,
 # "dev tap" will create an ethernet tunnel.
@@ -90,7 +90,7 @@ key easy-rsa/keys/vpnserver.key  # This file should be kept secret
 #   openssl dhparam -out dh1024.pem 1024
 # Substitute 2048 for 1024 if you are using
 # 2048 bit keys. 
-dh easy-rsa/keys/dh1024.pem
+dh easy-rsa/keys/dh2048.pem
 
 # Configure server mode and supply a VPN subnet
 # for OpenVPN to draw client addresses from.
@@ -249,8 +249,8 @@ keepalive 10 120
 # Select a cryptographic cipher.
 # This config item must be copied to
 # the client config file as well.
-cipher BF-CBC        # Blowfish (default)
-;cipher AES-128-CBC   # AES
+;cipher BF-CBC        # Blowfish (default)
+cipher AES-256-CBC   # AES
 ;cipher DES-EDE3-CBC  # Triple-DES
 
 # Enable compression on the VPN link.
@@ -311,3 +311,14 @@ verb 3
 # updated every time the openvpn-destroyuser command 
 # is run.
 #crl-verify crl.pem
+
+# Notify the client that when the server restarts so it
+# can automatically reconnect
+explicit-exit-notify 1
+
+# Authenticates messages
+auth SHA256
+
+# Add TLS support to handle DoS, Port Flooding, and Lang Time attacks
+tls-version-min 1.2
+tls-crypt /etc/openvpn/tc.key
