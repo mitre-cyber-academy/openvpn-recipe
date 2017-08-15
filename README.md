@@ -1,6 +1,6 @@
 # OpenVPN Setup Recipe
 
-This chef recipe creates a server allowing users to VPN into the network it is connected to and waits on the scoreboard to pass it users to add to the box.
+This chef (confirmed working on Chef v12.4.0) recipe creates a server allowing users to VPN into the network it is connected to and waits on the scoreboard to pass it users to add to the box.
 
 ## Commands
 
@@ -11,7 +11,7 @@ This script adds the following commands to your path:
 
 Both of these need to be run with administrative privileges.
 
-Also you need port 1194 open for TCP traffic on the firewall.
+Also you need port 1194 open for UDP traffic on the firewall.
 
 ## What is all this about watch keys?
 
@@ -25,6 +25,8 @@ If you want to run this recipe on your server without using a full chef server i
 * `cd openvpn-recipe` # Enter directory containing this code
 * `berks vendor cookbooks` # fetch all cookbook dependencies and place in the cookbooks directory.
 * `sudo chef-client -z -j node.json` # Run the chef client in standalone mode using the node.json provided.
+* `sudo openvpn --genkey --secret /etc/openvpn/tc.key` # To generate the tls key if it hasn't already been generated.
+
 
 ## To Do
 
